@@ -1,12 +1,9 @@
 import React from "react";
 import SearchBar from "./SearchBar";
-import { Search, ShoppingCart, UserRound } from "lucide-react";
+import { ShoppingCart, UserRound } from "lucide-react";
 import Link from "next/link";
 import { getServerSession } from "next-auth";
 import { authOptions } from "@/lib/auth";
-import { buttonVariants } from "./ui/button";
-import UserAccountNav from "./UserAccountNav";
-import { useCartContext } from "@/app/context/CartContext";
 import CartIcon from "./CartIcon";
 import SignOut from "./SignOut";
 

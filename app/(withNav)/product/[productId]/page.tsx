@@ -85,7 +85,7 @@ async function page({ params }: { params: { productId: number } }) {
               />
             </div>
             <div className="w-full hidden md:block py-2 bg-white">
-              <ProductAdd />
+              <ProductAdd product={result} />
             </div>
           </div>
         </div>
@@ -94,7 +94,7 @@ async function page({ params }: { params: { productId: number } }) {
           <p className="text-lg">{result.description}</p>
         </div>
         <div className="w-full md:hidden sticky bottom-0 py-2 px-3 bg-white border">
-          <ProductAdd />
+          <ProductAdd product={result} />
         </div>
       </div>
       <div className="md:w-[90%] mx-auto mt-20">

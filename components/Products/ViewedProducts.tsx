@@ -1,6 +1,6 @@
 "use client";
 import { addReccommendation, addViewedProduct } from "@/lib/helper";
-import { useSession } from "next-auth/react";
+import { signOut, useSession } from "next-auth/react";
 import { useRouter } from "next/navigation";
 import Link from "next/link";
 import { FC } from "react";
@@ -24,6 +24,7 @@ const ViewedProducts: FC<ViewedProductsProps> = ({ product }) => {
   const { addToRecommendations } = useRecommendedContext();
   const { addToViewed } = useViewedContext();
   const { addToCarts } = useCartContext();
+  const { status } = useSession();
   const move = useRouter();
   const handleClick = async () => {
     addToRecommendations(product.category);
@@ -58,31 +59,31 @@ const ViewedProducts: FC<ViewedProductsProps> = ({ product }) => {
           </div>
         </div>
       </div>
-      <div className="w-full z-50 absolute top-0 bg-black/85 h-full hidden transition-all md:group-hover:flex md:group-hover:items-center md:group-hover:justify-center md:group-hover:flex-col md:group-hover:gap-7">
+      <div className="w-full z-30 absolute top-0 bg-black/85 h-full hidden transition-all md:group-hover:flex md:group-hover:items-center md:group-hover:justify-center md:group-hover:flex-col md:group-hover:gap-7">
         <button
           onClick={() => {
-            const isSuccess = addToCarts(product);
-            if (isSuccess) {
+            if (status === "authenticated") {
+              addToCarts(product);
               toast.success("Added to Cart", {
                 position: "top-center",
                 style: {
                   background: "green",
                 },
               });
-            } else {
-              toast.error("Failed to add to cart", {
-                position: "top-center",
-              });
+            }
+
+            if (status === "unauthenticated") {
+              move.push("/sign-in");
             }
           }}
-          className="md:uppercase bg-green-400 text-white p-2 rounded-md hover:bg-green-500"
+          className="md:uppercase bg-green-400 text-white p-2 rounded-md hover:bg-green-500 transition-all"
         >
           Add to cart
         </button>
 
         <button
           onClick={handleClick}
-          className="bg-green-400 text-white p-2 rounded-md hover:bg-green-500"
+          className="bg-green-400 text-white p-2 rounded-md hover:bg-green-500 transition-all"
         >
           VIEW PRODUCT
         </button>

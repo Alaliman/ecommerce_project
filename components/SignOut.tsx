@@ -3,20 +3,21 @@
 import React from "react";
 import { Button } from "./ui/button";
 import { signOut } from "next-auth/react";
+import { UserRound } from "lucide-react";
 
 function SignOut() {
   return (
-    <Button
+    <div
       onClick={() =>
         signOut({
           redirect: true,
           callbackUrl: `${window.location.origin}/sign-in`,
         })
       }
-      variant={"destructive"}
+      className="text-gray-700 inline hover:text-gray-900"
     >
-      Sign out
-    </Button>
+      <UserRound className="inline" />
+    </div>
   );
 }
 

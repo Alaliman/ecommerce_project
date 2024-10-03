@@ -1,5 +1,6 @@
 import ForRemove from "@/components/ForRemove";
 import ProductCard from "@/components/Products/ProductCard";
+import { SearchX } from "lucide-react";
 import { FC } from "react";
 
 interface MyPageProps {

@@ -18,9 +18,6 @@ export default async function Home() {
           </div>
         )}
         <div>
-          <h3 className="text-2xl text-center font-extrabold ml-5 mt-5">
-            Trending Products
-          </h3>
           <ProductList />
         </div>
       </div>

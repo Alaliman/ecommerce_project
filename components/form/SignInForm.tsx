@@ -109,7 +109,7 @@ function SignInForm() {
             )}
           />
         </div>
-        <Button className="mt-6 w-full bg-slate-100" type="submit">
+        <Button className="mt-6 w-full " type="submit">
           Sign in
         </Button>
         <span

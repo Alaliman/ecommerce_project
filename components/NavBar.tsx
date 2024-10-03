@@ -7,6 +7,8 @@ import { authOptions } from "@/lib/auth";
 import { buttonVariants } from "./ui/button";
 import UserAccountNav from "./UserAccountNav";
 import { useCartContext } from "@/app/context/CartContext";
+import CartIcon from "./CartIcon";
+import SignOut from "./SignOut";
 
 async function NavBar() {
   const session = await getServerSession(authOptions);
@@ -15,7 +17,7 @@ async function NavBar() {
     <div className="z-30 py-3 shadow-sm bg-slate-50 w-full h-32 md:h-20 mx-auto">
       <div className="flex justify-between items-center w-full md:w-[90%] h-[50%] md:h-full p-4 mx-auto">
         <div className="flex-shrink-0">
-          <Link href="/" className="text-xl font-bold">
+          <Link href="/" className="text-xl font-bold hover:text-green-600">
             MyShop
           </Link>
         </div>
@@ -27,23 +29,37 @@ async function NavBar() {
 
         {/* Right: Navigation Links */}
         <div className="flex-shrink-0 space-x-4">
-          <Link
-            href="/carts"
-            className="text-gray-700 inline  hover:text-gray-900 ml-3"
-          >
-            <span className="relative">
-              <ShoppingCart className="inline" />
-              {/* {cart.length !== 0 && ( */}
-              <div className="w-1 h-1 p-2 scale-50 rounded-full bg-red-600 inline absolute"></div>
-              {/* )} */}
-            </span>
-          </Link>
-          <Link
-            href="/sign-in"
-            className="text-gray-700 inline hover:text-gray-900"
-          >
-            <UserRound className="inline" />
-          </Link>
+          {session ? (
+            <Link
+              href="/carts"
+              className="text-gray-700 inline  hover:text-green-600 ml-3"
+            >
+              <span className="relative">
+                <ShoppingCart className="inline" />
+                <CartIcon />
+              </span>
+            </Link>
+          ) : (
+            <Link
+              href="/sign-in"
+              className="text-gray-700 inline  hover:text-green-600 ml-3"
+            >
+              <span className="relative">
+                <ShoppingCart className="inline" />
+                <CartIcon />
+              </span>
+            </Link>
+          )}
+          {session ? (
+            <Link
+              href="/sign-in"
+              className="text-gray-700 inline hover:text-green-600"
+            >
+              <UserRound className="inline" />
+            </Link>
+          ) : (
+            <SignOut />
+          )}
         </div>
       </div>
       <div className="flex justify-between items-center w-[90%] h-[40%] mx-auto md:hidden">

@@ -1,3 +1,4 @@
+import ProductAdd from "@/components/Products/ProductAdd";
 import RelatedProducts from "@/components/Products/RelatedProducts";
 import ViewedProductList from "@/components/Products/ViewedProductsList";
 import StarRating from "@/components/StarRating";
@@ -84,9 +85,7 @@ async function page({ params }: { params: { productId: number } }) {
               />
             </div>
             <div className="w-full hidden md:block py-2 bg-white">
-              <button className="w-full bg-green-600 text-white py-4">
-                ADD TO CART
-              </button>
+              <ProductAdd />
             </div>
           </div>
         </div>
@@ -95,9 +94,7 @@ async function page({ params }: { params: { productId: number } }) {
           <p className="text-lg">{result.description}</p>
         </div>
         <div className="w-full md:hidden sticky bottom-0 py-2 px-3 bg-white border">
-          <button className="w-full bg-green-600 text-white py-4">
-            ADD TO CART
-          </button>
+          <ProductAdd />
         </div>
       </div>
       <div className="md:w-[90%] mx-auto mt-20">

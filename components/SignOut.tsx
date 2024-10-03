@@ -14,7 +14,7 @@ function SignOut() {
           callbackUrl: `${window.location.origin}/sign-in`,
         })
       }
-      className="text-gray-700 inline hover:text-gray-900"
+      className="text-gray-700 inline hover:text-green-600 cursor-pointer"
     >
       <UserRound className="inline" />
     </div>

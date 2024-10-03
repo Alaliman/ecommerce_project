@@ -106,20 +106,28 @@ export const removeFromCart = async (
   userId: string,
   productId: number
 ): Promise<void> => {
-  const baseUrl = process.env.NEXT_PUBLIC_API_URL || "http://localhost:3000";
-  const res = await fetch(`${baseUrl}/api/cart/${userId}/remove`, {
-    method: "POST",
-    headers: {
-      "Content-Type": "application/json",
-    },
-    body: JSON.stringify({ productId }),
-  });
+  // Trim and sanitize the userId
+  const sanitizedUserId = userId.trim();
 
+  // Construct the API URL
+  const baseUrl = process.env.NEXT_PUBLIC_API_URL || "http://localhost:3000";
+  const res = await fetch(
+    `${baseUrl}/api/cart/${encodeURIComponent(sanitizedUserId)}/remove`,
+    {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify({ productId }),
+    }
+  );
+
+  // Error handling
   if (!res.ok) {
     throw new Error("Failed to remove item from cart");
   }
 
-  // No need to return anything since the action is complete
+  // No return value is necessary as the operation is complete
 };
 
 export const addToCart = async (
@@ -200,6 +208,7 @@ export const addViewedProduct = async (
   userId: String,
   productId: number
 ): Promise<void> => {
+  console.log("i am here", productId);
   const baseUrl = process.env.NEXT_PUBLIC_API_URL || "http://localhost:3000";
   const res = await fetch(`${baseUrl}/api/viewed/${userId}`, {
     method: "POST",

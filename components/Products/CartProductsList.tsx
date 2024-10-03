@@ -5,7 +5,7 @@ import React, { useEffect } from "react";
 
 function CartProductsList() {
   const { cart, isCartEmpty, cartTotal, removeFromCarts } = useCartContext();
-  const { setIsLoadModal, setIsRemoveModal } = useModalContext();
+  const { setIsLoadModal, setIsRemoveModal, setCartId } = useModalContext();
 
   const removeModal = async () => {
     //wait funtion
@@ -95,7 +95,10 @@ function CartProductsList() {
                     </div>
                     <div className="w-full flex justify-end pb-4">
                       <button
-                        onClick={() => setIsRemoveModal(true)}
+                        onClick={() => {
+                          setCartId(cartItem.id);
+                          setIsRemoveModal(true);
+                        }}
                         className="bg-transparent text-red-500 w-[30%] cursor-pointer"
                       >
                         REMOVE

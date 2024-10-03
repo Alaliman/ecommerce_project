@@ -15,7 +15,7 @@ interface ViewedItem {
 
 interface ViewedContextType {
   viewed: ViewedItem[];
-  addToViewed: (item: ViewedItem) => void;
+  addToViewed: (item: ViewedItem) => Promise<void>;
   isLoading: boolean;
   isSuccess: boolean;
   isError: boolean;
@@ -24,7 +24,7 @@ interface ViewedContextType {
 // Create the CartContext
 const ViewedContext = createContext<ViewedContextType>({
   viewed: [],
-  addToViewed: () => null,
+  addToViewed: async () => {},
   isLoading: false,
   isSuccess: false,
   isError: false,
@@ -84,6 +84,7 @@ export default function ViewedProvider({ children }: CartProviderProps) {
   const addMutation = useMutation({
     mutationFn: async (newItem: ViewedItem) => {
       if (session) {
+        console.log("view view");
         await addViewedProduct(session.user.id, newItem.id);
       } else {
         if (guestViewed.length >= 5) {
@@ -103,8 +104,8 @@ export default function ViewedProvider({ children }: CartProviderProps) {
     },
   });
 
-  const addToViewed = (item: ViewedItem) => {
-    addMutation.mutate(item);
+  const addToViewed = async (item: ViewedItem) => {
+    await addMutation.mutateAsync(item);
   };
 
   // const clearCarts = () => {

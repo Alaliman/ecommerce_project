@@ -26,7 +26,7 @@ interface RecommendedItem {
 
 interface RecommendContextType {
   recommendedProducts: RecommendedItem[];
-  addToRecommendations: (item: string) => void;
+  addToRecommendations: (item: string) => Promise<void>;
   isLoading: boolean;
   isSuccess: boolean;
   isError: boolean;
@@ -35,7 +35,7 @@ interface RecommendContextType {
 // Create the CartContext
 const RecommendedContext = createContext<RecommendContextType>({
   recommendedProducts: [],
-  addToRecommendations: () => null,
+  addToRecommendations: () => Promise.resolve(),
   isLoading: false,
   isSuccess: false,
   isError: false,
@@ -127,6 +127,7 @@ export default function RecommendedProvider({
   const addMutation = useMutation({
     mutationFn: async (newItem: string) => {
       if (session?.user?.id) {
+        console.log("unto the next");
         await addReccommendation(session.user.id, newItem);
       } else {
         setRecommendedCategory((prev) => [...prev, newItem]);
@@ -141,8 +142,8 @@ export default function RecommendedProvider({
     },
   });
 
-  const addToRecommendations = (item: string) => {
-    addMutation.mutate(item);
+  const addToRecommendations = async (item: string) => {
+    await addMutation.mutateAsync(item);
   };
 
   // const clearCarts = () => {

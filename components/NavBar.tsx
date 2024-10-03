@@ -47,7 +47,7 @@ async function NavBar() {
               </span>
             </Link>
           )}
-          {session ? (
+          {!session ? (
             <Link
               href="/sign-in"
               className="text-gray-700 inline hover:text-green-600"

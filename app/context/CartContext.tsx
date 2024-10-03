@@ -15,8 +15,8 @@ interface CartItem {
 
 interface CartContextType {
   cart: CartItem[];
-  addToCarts: (item: CartItem) => boolean;
-  removeFromCarts: (itemId: number) => boolean;
+  addToCarts: (item: CartItem) => Promise<void>;
+  removeFromCarts: (itemId: number) => Promise<void>;
   isLoading: boolean;
   isSuccess: boolean;
   isError: boolean;
@@ -27,8 +27,8 @@ interface CartContextType {
 // Create the CartContext
 const CartContext = createContext<CartContextType>({
   cart: [],
-  addToCarts: () => false,
-  removeFromCarts: () => false,
+  addToCarts: async () => {},
+  removeFromCarts: async () => {},
   isLoading: false,
   isSuccess: false,
   isError: false,
@@ -101,9 +101,13 @@ export default function CartProvider({ children }: CartProviderProps) {
       }
     },
     onSuccess: () => {
-      if (session) {
+      if (status === "authenticated") {
         // If the user is logged in, invalidate and refetch the cart query
-        queryClient.invalidateQueries({ queryKey: ["cart"] });
+        queryClient.invalidateQueries({ queryKey: ["userCart"] });
+      }
+
+      if (status === "unauthenticated") {
+        queryClient.invalidateQueries({ queryKey: ["guestCart"] });
       }
     },
   });
@@ -155,16 +159,12 @@ export default function CartProvider({ children }: CartProviderProps) {
   //   }
   // );
 
-  const addToCarts = (item: CartItem) => {
-    addMutation.mutateAsync(item);
-
-    return addMutation.isSuccess;
+  const addToCarts = async (item: CartItem) => {
+    await addMutation.mutateAsync(item);
   };
 
-  const removeFromCarts = (itemId: number) => {
-    removeMutation.mutate(itemId);
-
-    return removeMutation.isSuccess;
+  const removeFromCarts = async (itemId: number) => {
+    await removeMutation.mutateAsync(itemId);
   };
 
   // const clearCarts = () => {
